@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Enums;
 using Interfaces;
+using PuzzleMechanic.Interfaces;
+using PuzzleMechanic.Systems;
 using Systems;
 using UnityEngine;
 
@@ -9,25 +10,40 @@ namespace PuzzleMechanic
 {
     public class CubeAssembler : MonoBehaviour, IBreakable, IAssemble
     {
+        [SerializeField] private Spots _spots = new(); 
         [SerializeField] private GameObject[] _objectPieces;
-        [SerializeField] private Vector3[] _piecesSlotsPosition;
-        [SerializeField] private Quaternion[] _piecesSlotsRotation;
-        [SerializeField] private bool[] _inRightSlot;
+        [SerializeField] private GameObject[] _basePieces;
         [SerializeField] private Material _newMaterial;
-        [SerializeField] private float _allowedError = 0.2f;
-    
+        [SerializeField] private Pieces _pieces = new();
+
         private ObjectBuilder _objectBuilder;
         private bool _isBroken;
 
         private void Awake()
         {
+            Subscribe();
             Initialize();
         }
+        private void OnDestroy()
+        {
+            UnSubscribe();
+        }
 
+        private void Subscribe()
+        {
+            _pieces.OnSpotPutted += CheckWinScore;
+        }
+
+        private void UnSubscribe()
+        {
+            _pieces.OnSpotPutted -= CheckWinScore;
+        }
+        
         public void BreakObject()
         {
             if (!_isBroken)
             {
+                _pieces.InitializePieces(_objectPieces, _basePieces, _spots);
                 _isBroken = true;
                 _objectBuilder.BreakObject(_newMaterial);
             }
@@ -35,75 +51,36 @@ namespace PuzzleMechanic
         public void AssembleObject()
         {
             _objectBuilder.AssembleObject();
+            _spots.OffAllSpots();
             ReInitializeObject();
         }
+
         public void CheckPieceSpotСorrectness(GameObject piece)
         {
-            int arrayIndex = GetArrayIndex(piece);
-        
-            if (Vector3.Distance(piece.transform.position, _piecesSlotsPosition[arrayIndex]) <= _allowedError)
-            {
-                PutPieceOnSpot(piece, arrayIndex);
-                CheckWinScore();
-            }
+            _pieces.CheckPieceSpotСorrectness(piece);
         }
-    
+
         private void Initialize()
         {
-            InitializePieces();
             gameObject.tag = Tags.DestructibleObject.ToString();
             _objectBuilder = new ObjectBuilder(gameObject, _objectPieces, gameObject.GetComponent<Renderer>().material);
         }
-
-        private void InitializePieces()
-        {
-            int numberOfPieces = _objectPieces.Length;
-            _inRightSlot = new bool[numberOfPieces];
-            _piecesSlotsPosition = new Vector3[numberOfPieces];
-            _piecesSlotsRotation = new Quaternion[numberOfPieces];
         
-            for (int i = 0; i < _objectPieces.Length; i++)
-            {
-                _objectPieces[i].tag = Tags.PiecesOfObject.ToString();
-                _piecesSlotsPosition[i] = _objectPieces[i].transform.position;
-                _piecesSlotsRotation[i] = _objectPieces[i].transform.rotation;
-            }
-        }
-    
         private void ReInitializeObject()
         {
             _isBroken = false;
-            foreach (var objectPiece in _objectPieces)
-            {
-                objectPiece.GetComponent<Rigidbody>().isKinematic = false;
-                objectPiece.GetComponent<Collider>().enabled = true;
-            }
+            _pieces.ReInitializePieces();
             Initialize();
         }
-
-        private void PutPieceOnSpot(GameObject piece, int objectIndex)
-        {
-            piece.GetComponent<Rigidbody>().isKinematic = true;
-            piece.GetComponent<Collider>().enabled = false;
-            piece.transform.position = _piecesSlotsPosition[objectIndex];
-            piece.transform.rotation = _piecesSlotsRotation[objectIndex];
-            _inRightSlot[objectIndex] = true;
-        }
+        
         private void CheckWinScore()
         {
-            int score = _inRightSlot.Count(slot => slot);
+            int score = _pieces.InRightSlot.Count(slot => slot);
 
-            if (score == _inRightSlot.Length)
+            if (score == _pieces.InRightSlot.Length)
             {
                 AssembleObject();
             }
-        }
-    
-        private int GetArrayIndex(GameObject piece)
-        {
-            int index = Array.IndexOf(_objectPieces,piece);
-        
-            return index;
         }
     }
 }

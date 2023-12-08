@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Interfaces
+namespace PuzzleMechanic.Interfaces
 {
     public interface IAssemble
     {

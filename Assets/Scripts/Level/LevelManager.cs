@@ -1,6 +1,7 @@
 using Enums;
 using InputSystem;
 using Interfaces;
+using PuzzleMechanic.Interfaces;
 using Systems;
 using UnityEngine;
 
