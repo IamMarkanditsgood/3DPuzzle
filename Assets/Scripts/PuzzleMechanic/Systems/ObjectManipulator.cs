@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Systems
+namespace PuzzleMechanic.Systems
 {
     public class ObjectManipulator
     {

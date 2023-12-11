@@ -1,5 +1,5 @@
 ﻿using System;
-using Enums;
+using PuzzleMechanic.Enums;
 using UnityEngine;
 
 namespace PuzzleMechanic.Systems
@@ -11,7 +11,7 @@ namespace PuzzleMechanic.Systems
         [SerializeField] private Quaternion[] _piecesSlotsRotation;
         [SerializeField] private bool[] _inRightSlot;
         [SerializeField] private float _allowedError = 0.2f;
-        [SerializeField] private float _lowerСubeDistance = 10f;
+        [SerializeField] private PiecesRays _piecesRays = new();
 
         private GameObject[] _objectPieces;
         private GameObject[] _basePieces;
@@ -55,6 +55,7 @@ namespace PuzzleMechanic.Systems
             
             if (IsOnOther(piece) && Vector3.Distance(piece.transform.position, _piecesSlotsPosition[arrayIndex]) <= _allowedError)
             {
+                
                 PutPieceOnSpot(piece, arrayIndex);
                 OnSpotPutted?.Invoke();
             }
@@ -63,7 +64,7 @@ namespace PuzzleMechanic.Systems
         private void PutPieceOnSpot(GameObject piece, int objectIndex)
         {
             piece.GetComponent<Rigidbody>().isKinematic = true;
-            piece.GetComponent<Collider>().enabled = false;
+            piece.tag = Tags.UntouchedPiece.ToString();
             piece.transform.position = _piecesSlotsPosition[objectIndex];
             piece.transform.rotation = _piecesSlotsRotation[objectIndex];
             _inRightSlot[objectIndex] = true;
@@ -85,18 +86,7 @@ namespace PuzzleMechanic.Systems
                     return true;
                 }
             }
-            Vector3 center = currentPieces.transform.position;
-            Vector3 rayDirection = -Vector3.up;
-            
-            if (Physics.Raycast(center, rayDirection, out RaycastHit hit, _lowerСubeDistance))
-            {
-                if (hit.collider.gameObject.CompareTag(Tags.PiecesOfObject.ToString()))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _piecesRays.CreateRays(currentPieces);
         }
         
     }

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Enums;
 using Interfaces;
+using PuzzleMechanic.Enums;
 using PuzzleMechanic.Interfaces;
 using PuzzleMechanic.Systems;
 using Systems;

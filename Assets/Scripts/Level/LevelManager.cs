@@ -1,7 +1,8 @@
-using Enums;
 using InputSystem;
 using Interfaces;
+using PuzzleMechanic.Enums;
 using PuzzleMechanic.Interfaces;
+using PuzzleMechanic.Systems;
 using Systems;
 using UnityEngine;
 
