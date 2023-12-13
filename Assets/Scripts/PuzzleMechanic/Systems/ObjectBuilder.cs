@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 
-namespace Systems
+namespace PuzzleMechanic.Systems
 {
         public class ObjectBuilder
         {
                 private readonly GameObject[] _objectPieces;
-                private readonly GameObject _collectedObject;
+                private readonly GameObject[] _baseHologramPieces;
+                private readonly GameObject[] _currentObject;
                 private readonly Material _mainMaterial;
         
-                public ObjectBuilder(GameObject collectedObject, GameObject[] objectPieces, Material mainMaterial)
+                public ObjectBuilder(GameObject[] baseHologramPieces,GameObject[] currentObject,GameObject[] objectPieces, Material mainMaterial)
                 {
-                        _collectedObject = collectedObject;
+                        _baseHologramPieces = baseHologramPieces;
+                        _currentObject = currentObject;
                         _objectPieces = objectPieces;
                         _mainMaterial = mainMaterial;
                 }
         
-                public void BreakObject(Material newMaterial)
+                public void BreakObject(Material newMaterial,Material newBaseMaterial)
                 {
-                        SwitchMaterial(newMaterial);
+                        SwitchMaterial(newMaterial,newBaseMaterial);
                         SwitchPieces(true);
                 }
 
@@ -27,15 +29,32 @@ namespace Systems
                         SwitchPieces(false);
                 }
 
+                private void SwitchMaterial(Material newMaterial, Material baseMaterial)
+                {
+
+                        SwitchMaterialOfAllObjects(newMaterial);
+                        foreach (var basePiece in _baseHologramPieces)
+                        {
+                                basePiece.GetComponent<Renderer>().material = baseMaterial; 
+                        }
+                }
                 private void SwitchMaterial(Material newMaterial)
                 {
-                        _collectedObject.GetComponent<Renderer>().material = newMaterial;
+                        SwitchMaterialOfAllObjects(newMaterial);
+                }
+
+                private void SwitchMaterialOfAllObjects(Material newMaterial)
+                {
+                        foreach (var piece in _currentObject)
+                        {
+                                piece.GetComponent<Renderer>().material = newMaterial;
+                        }
                 }
                 private void SwitchPieces(bool state)
                 {
-                        foreach (GameObject i in _objectPieces)
+                        foreach (GameObject piece in _objectPieces)
                         {
-                                i.SetActive(state);
+                                piece.SetActive(state);
                         }
                 }
         }

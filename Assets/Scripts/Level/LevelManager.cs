@@ -3,92 +3,94 @@ using Interfaces;
 using PuzzleMechanic.Enums;
 using PuzzleMechanic.Interfaces;
 using PuzzleMechanic.Systems;
-using Systems;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+namespace Level
 {
-    [SerializeField] private float _rayDistance = 10f;
-
-    private InputManager _inputManager = new();
-    private ObjectManipulator _objectManipulator = new();
-    private GameObject _choosedPiece;
-    private GameObject _choosedPazzle;
-    private bool _isDragging;
-
-    private void Awake()
+    public class LevelManager : MonoBehaviour
     {
-        Subscribe();
-    }
+        [SerializeField] private float _rayDistance = 10f;
 
-    private void Update()
-    {
-        _inputManager.CheckPressedKey();
-    }
+        private InputManager _inputManager = new();
+        private ObjectManipulator _objectManipulator = new();
+        private GameObject _choosedPiece;
+        private GameObject _choosedPazzle;
+        private bool _isDragging;
 
-    private void OnDestroy()
-    {
-        UnSubscribe();
-    }
+        private void Awake()
+        {
+            Subscribe();
+        }
 
-    private void Subscribe()
-    {
-        _inputManager.OnButtonPressed += MouseButtonPressed;
-        _inputManager.OnButtonUp += MouseButtonUp;
+        private void Update()
+        {
+            _inputManager.CheckPressedKey();
+        }
 
-    }
+        private void OnDestroy()
+        {
+            UnSubscribe();
+        }
 
-    private void UnSubscribe()
-    {
-        _inputManager.OnButtonPressed -= MouseButtonPressed;
-        _inputManager.OnButtonUp -= MouseButtonUp;
-    }
+        private void Subscribe()
+        {
+            _inputManager.OnButtonPressed += MouseButtonPressed;
+            _inputManager.OnButtonUp += MouseButtonUp;
 
-    private void MouseButtonPressed()
-    {
-        InteractWithWorld();
-    }
+        }
+
+        private void UnSubscribe()
+        {
+            _inputManager.OnButtonPressed -= MouseButtonPressed;
+            _inputManager.OnButtonUp -= MouseButtonUp;
+        }
+
+        private void MouseButtonPressed()
+        {
+            InteractWithWorld();
+        }
     
-    private void MouseButtonUp()
-    {
-        CheckPieceSpot();
-    }
+        private void MouseButtonUp()
+        {
+            CheckPieceSpot();
+        }
 
-    private void InteractWithWorld()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        Ray ray = Camera.main.ScreenPointToRay(mousePos);
-        RaycastHit hitInfo;
-        
-        if (Physics.Raycast(ray, out hitInfo, _rayDistance))
+        private void InteractWithWorld()
         {
-            GameObject hitObject = hitInfo.collider.gameObject;
-            if (hitObject.CompareTag(Tags.PiecesOfObject.ToString()))
+            Vector3 mousePos = Input.mousePosition;
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit hitInfo;
+        
+            if (Physics.Raycast(ray, out hitInfo, _rayDistance))
             {
-                _isDragging = true;
-                _choosedPiece = hitObject;
+                GameObject hitObject = hitInfo.collider.gameObject;
+                if (hitObject.CompareTag(Tags.PiecesOfObject.ToString()))
+                {
+                    _isDragging = true;
+                    _choosedPiece = hitObject;
+                }
+                else if (hitObject.CompareTag(Tags.DestructibleObject.ToString()))
+                {
+                    _choosedPazzle = hitObject;
+                    IBreakable destructibleObject = hitObject.GetComponent<IBreakable>();
+                    destructibleObject.BreakObject();
+                }
             }
-            else if (hitObject.CompareTag(Tags.DestructibleObject.ToString()))
+        
+            if (_isDragging)
             {
-                _choosedPazzle = hitObject;
-                IBreakable destructibleObject = hitObject.GetComponent<IBreakable>();
-                destructibleObject.BreakObject();
+                _objectManipulator.MoveObject(_choosedPiece, ray, _rayDistance);
             }
         }
-        
-        if (_isDragging)
-        {
-            _objectManipulator.MoveObject(_choosedPiece, ray, _rayDistance);
-        }
-    }
     
-    private void CheckPieceSpot()
-    {
-        if (_choosedPiece != null)
+        private void CheckPieceSpot()
         {
-            _choosedPazzle.GetComponent<IAssemble>().CheckPieceSpotСorrectness(_choosedPiece);
+            if (_choosedPiece != null)
+            {
+                _choosedPazzle.GetComponent<IAssemble>().CheckPieceSpotСorrectness(_choosedPiece);
+            }
+            _choosedPiece = null;
+            _isDragging = false;
         }
-        _choosedPiece = null;
-        _isDragging = false;
     }
 }

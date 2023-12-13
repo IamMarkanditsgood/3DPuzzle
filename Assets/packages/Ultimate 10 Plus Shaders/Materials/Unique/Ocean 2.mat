@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ocean (1)
+  m_Name: Ocean 2
   m_Shader: {fileID: 4800000, guid: 4889fcee5f0084a4e8a1c45f616a86dd, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -36,7 +36,7 @@ Material:
     - _NormalStrength1: 0.17
     - _NormalStrength2: 0.8
     m_Colors:
-    - _Color: {r: 1, g: 0.93901765, b: 0, a: 0.3254902}
+    - _Color: {r: 1, g: 0.29943702, b: 0, a: 0.3254902}
     - _FlowDirection1: {r: 0.05, g: 0.05, b: 0, a: 1}
     - _FlowDirection2: {r: 0, g: 0.05, b: 0, a: 1}
   m_BuildTextureStacks: []

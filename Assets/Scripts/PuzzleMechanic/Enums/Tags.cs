@@ -5,5 +5,6 @@
         PiecesOfObject,
         DestructibleObject,
         UntouchedPiece,
+        Hologram,
     }
 }

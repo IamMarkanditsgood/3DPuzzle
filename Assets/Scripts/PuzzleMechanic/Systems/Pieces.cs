@@ -12,6 +12,7 @@ namespace PuzzleMechanic.Systems
         [SerializeField] private bool[] _inRightSlot;
         [SerializeField] private float _allowedError = 0.2f;
         [SerializeField] private PiecesRays _piecesRays = new();
+        [SerializeField] private Material _nextPieceMaterial;
 
         private GameObject[] _objectPieces;
         private GameObject[] _basePieces;
@@ -51,7 +52,7 @@ namespace PuzzleMechanic.Systems
 
         public void CheckPieceSpotСorrectness(GameObject piece)
         {
-            int arrayIndex = GetArrayIndex(piece);
+            int arrayIndex = PiecesArray.GetArrayIndex(piece, _objectPieces);
             
             if (IsOnOther(piece) && Vector3.Distance(piece.transform.position, _piecesSlotsPosition[arrayIndex]) <= _allowedError)
             {
@@ -68,15 +69,9 @@ namespace PuzzleMechanic.Systems
             piece.transform.position = _piecesSlotsPosition[objectIndex];
             piece.transform.rotation = _piecesSlotsRotation[objectIndex];
             _inRightSlot[objectIndex] = true;
+            _piecesRays.PaintUpperPieces(piece, Vector3.up, Tags.Hologram,_nextPieceMaterial);
         }
-        
-        private int GetArrayIndex(GameObject piece)
-        {
-            int index = Array.IndexOf(_objectPieces,piece);
-        
-            return index;
-        }
-        
+
         private bool IsOnOther(GameObject currentPieces)
         {
             foreach (var basePiece in _basePieces)
@@ -86,7 +81,7 @@ namespace PuzzleMechanic.Systems
                     return true;
                 }
             }
-            return _piecesRays.CreateRays(currentPieces);
+            return _piecesRays.IsHexagonTouch(currentPieces, Vector3.down, Tags.UntouchedPiece);
         }
         
     }
