@@ -20,13 +20,13 @@ namespace PuzzleMechanic.Systems.PuzzleBuilder
                 public void BreakObject(Material newMaterial,Material newBaseMaterial)
                 {
                         SwitchMaterial(newMaterial,newBaseMaterial);
-                        SwitchPieces(true);
+                        SwitchPieces(true, _baseHologramPieces);
                 }
 
                 public void AssembleObject()
                 {
                         SwitchMaterial(_mainMaterial);
-                        SwitchPieces(false);
+                        SwitchPieces(false,_baseHologramPieces);
                 }
 
                 private void SwitchMaterial(Material newMaterial, Material baseMaterial)
@@ -50,11 +50,16 @@ namespace PuzzleMechanic.Systems.PuzzleBuilder
                                 piece.GetComponent<Renderer>().material = newMaterial;
                         }
                 }
-                private void SwitchPieces(bool state)
+                private void SwitchPieces(bool state, GameObject[] baseHologramPieces)
                 {
                         foreach (GameObject piece in _objectPieces)
                         {
                                 piece.SetActive(state);
+                        }
+
+                        foreach (var piece in baseHologramPieces)
+                        {
+                                piece.GetComponent<Collider>().enabled = !state;
                         }
                 }
         }

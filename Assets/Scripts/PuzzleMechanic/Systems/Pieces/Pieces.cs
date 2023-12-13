@@ -13,6 +13,7 @@ namespace PuzzleMechanic.Systems.Pieces
         [SerializeField] private float _allowedError = 0.2f;
         [SerializeField] private PiecesRays _piecesRays = new();
         [SerializeField] private Vector3 _directionOfConnection;
+        [SerializeField] private Vector3 _directionOfPainting;
         
         private Material _nextPieceMaterial;
         private GameObject[] _objectPieces;
@@ -71,7 +72,7 @@ namespace PuzzleMechanic.Systems.Pieces
             piece.transform.position = _piecesSlotsPosition[objectIndex];
             piece.transform.rotation = _piecesSlotsRotation[objectIndex];
             _inRightSlot[objectIndex] = true;
-            _piecesRays.PaintNextStage(piece, -_directionOfConnection, Constants.HologramOfObject,_nextPieceMaterial);
+            _piecesRays.PaintNextStage(piece, _directionOfPainting, Constants.HologramOfObject,_nextPieceMaterial);
             
         }
 

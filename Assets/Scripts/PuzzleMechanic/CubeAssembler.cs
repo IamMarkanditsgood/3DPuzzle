@@ -10,6 +10,7 @@ namespace PuzzleMechanic
 {
     public class CubeAssembler : MonoBehaviour, IBreakable, IAssemble
     {
+        [Header("Puzzle")]
         [SerializeField] private GameObject[] _currentObject;
         [SerializeField] private GameObject[] _objectPieces;
         [SerializeField] private GameObject[] _basePieces;
@@ -17,10 +18,13 @@ namespace PuzzleMechanic
         [SerializeField] private Material _newMaterial;
         [SerializeField] private Material _newBaseMaterial;
         [SerializeField] private Material _mainMaterial;
+        [Header("Systems")]
         [SerializeField] private Pieces _pieces = new();
         [SerializeField] private Spots _spots = new();
         [SerializeField] private Exploder _exploder = new();
-        
+        [Header("Permits")]
+        [SerializeField] private bool _isExploded = true;
+
         private ObjectBuilder _objectBuilder;
         private bool _isBroken;
 
@@ -51,7 +55,10 @@ namespace PuzzleMechanic
                 _isBroken = true;
                 _pieces.InitializePieces(_objectPieces, _basePieces, _spots, _newBaseMaterial);
                 _objectBuilder.BreakObject(_newMaterial,_newBaseMaterial);
-                _exploder.Explode(_objectPieces);
+                if (_isExploded)
+                {
+                    _exploder.Explode(_objectPieces);
+                }
             }
         }
         public void AssembleObject()

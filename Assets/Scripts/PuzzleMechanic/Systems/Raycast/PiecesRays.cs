@@ -15,13 +15,12 @@ namespace PuzzleMechanic.Systems.Raycast
         private string _searchedTags;
         private RaycastHit _currentHit;
 
-        private const int SizeOfArray = 9;
-
         public bool IsTouch(GameObject currentPieces, Vector3 direction, string searchedTags)
         {
             Initialize(currentPieces, direction, searchedTags);
             return CheckHits();
         }
+        
         public void PaintNextStage(GameObject currentPieces, Vector3 direction, string searchedTags, Material newMaterial)
         {
             Initialize(currentPieces, direction, searchedTags);
@@ -63,7 +62,7 @@ namespace PuzzleMechanic.Systems.Raycast
         {
             SetRayLenght();
             
-            RaycastHit[] raycastHits = new RaycastHit[SizeOfArray];
+            RaycastHit[] raycastHits = new RaycastHit[Constants.SizeOfArray];
 
             raycastHits[0] = CreateRay(_directionOfHexagon, _currentPieces, _rayLength );
             
