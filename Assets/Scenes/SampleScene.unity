@@ -844,7 +844,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309324094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.285, y: -0.551, z: 2.135}
+  m_LocalPosition: {x: -0.285, y: -1.17, z: -0.04}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1089,12 +1089,16 @@ PrefabInstance:
       value: Mine_Entrance_Arch
       objectReference: {fileID: 0}
     - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
+      propertyPath: _pieces._allowedError
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
       propertyPath: _exploder._explosionForce
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
       propertyPath: _exploder._explosionRadius
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
       propertyPath: _exploder._explosionPosition
@@ -1110,7 +1114,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
       propertyPath: _pieces._piecesRays._angleOffset
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694112860579937191, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
+      propertyPath: _pieces._piecesRays._rayLenghtAfter
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7694112860659180097, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
+      propertyPath: _angleOffset
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7875744188043954072, guid: d138c5c889bdc3745b7518f422f81bec, type: 3}
       propertyPath: m_RootOrder

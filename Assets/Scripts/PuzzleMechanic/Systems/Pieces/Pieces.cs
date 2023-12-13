@@ -71,7 +71,8 @@ namespace PuzzleMechanic.Systems.Pieces
             piece.transform.position = _piecesSlotsPosition[objectIndex];
             piece.transform.rotation = _piecesSlotsRotation[objectIndex];
             _inRightSlot[objectIndex] = true;
-            _piecesRays.PaintUpperPieces(piece, -_directionOfConnection, Constants.HologramOfObject,_nextPieceMaterial);
+            _piecesRays.PaintNextStage(piece, -_directionOfConnection, Constants.HologramOfObject,_nextPieceMaterial);
+            
         }
 
         private bool IsOnOther(GameObject currentPieces)
@@ -83,7 +84,8 @@ namespace PuzzleMechanic.Systems.Pieces
                     return true;
                 }
             }
-            return _piecesRays.IsHexagonTouch(currentPieces, _directionOfConnection, Constants.UntouchedPiece);
+
+            return _piecesRays.IsTouch(currentPieces, _directionOfConnection, Constants.UntouchedPiece);
         }
         
     }
