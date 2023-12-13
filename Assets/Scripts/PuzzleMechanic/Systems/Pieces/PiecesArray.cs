@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace PuzzleMechanic.Systems
+namespace PuzzleMechanic.Systems.Pieces
 {
     public class PiecesArray
     {

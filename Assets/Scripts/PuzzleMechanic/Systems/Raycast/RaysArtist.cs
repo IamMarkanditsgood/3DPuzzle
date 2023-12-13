@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace PuzzleMechanic.Systems
+namespace PuzzleMechanic.Systems.Raycast
 {
     public class RaysArtist : MonoBehaviour
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using PuzzleMechanic.Enums;
+using PuzzleMechanic.Systems.Raycast;
 using UnityEngine;
 
-namespace PuzzleMechanic.Systems
+namespace PuzzleMechanic.Systems.Pieces
 {
     [Serializable]
     public class Pieces
@@ -12,8 +12,9 @@ namespace PuzzleMechanic.Systems
         [SerializeField] private bool[] _inRightSlot;
         [SerializeField] private float _allowedError = 0.2f;
         [SerializeField] private PiecesRays _piecesRays = new();
-        [SerializeField] private Material _nextPieceMaterial;
-
+        [SerializeField] private Vector3 _directionOfConnection;
+        
+        private Material _nextPieceMaterial;
         private GameObject[] _objectPieces;
         private GameObject[] _basePieces;
         private Spots _spots;
@@ -22,8 +23,9 @@ namespace PuzzleMechanic.Systems
         
         public bool[] InRightSlot => _inRightSlot;
         
-        public void InitializePieces(GameObject[] objectPieces, GameObject[] basePieces, Spots spots)
+        public void InitializePieces(GameObject[] objectPieces, GameObject[] basePieces, Spots spots, Material nextPieceMaterial)
         {
+            _nextPieceMaterial = nextPieceMaterial;
             _basePieces = basePieces;
             _objectPieces = objectPieces;
             _spots = spots;
@@ -34,7 +36,7 @@ namespace PuzzleMechanic.Systems
         
             for (int i = 0; i < _objectPieces.Length; i++)
             {
-                _objectPieces[i].tag = Tags.PiecesOfObject.ToString();
+                _objectPieces[i].tag = Constants.PiecesOfObject;
                 _piecesSlotsPosition[i] = _objectPieces[i].transform.position;
                 _piecesSlotsRotation[i] = _objectPieces[i].transform.rotation;
                 _spots.PutSpot(i, _piecesSlotsPosition);
@@ -65,11 +67,11 @@ namespace PuzzleMechanic.Systems
         private void PutPieceOnSpot(GameObject piece, int objectIndex)
         {
             piece.GetComponent<Rigidbody>().isKinematic = true;
-            piece.tag = Tags.UntouchedPiece.ToString();
+            piece.tag = Constants.UntouchedPiece;
             piece.transform.position = _piecesSlotsPosition[objectIndex];
             piece.transform.rotation = _piecesSlotsRotation[objectIndex];
             _inRightSlot[objectIndex] = true;
-            _piecesRays.PaintUpperPieces(piece, Vector3.up, Tags.Hologram,_nextPieceMaterial);
+            _piecesRays.PaintUpperPieces(piece, -_directionOfConnection, Constants.HologramOfObject,_nextPieceMaterial);
         }
 
         private bool IsOnOther(GameObject currentPieces)
@@ -81,7 +83,7 @@ namespace PuzzleMechanic.Systems
                     return true;
                 }
             }
-            return _piecesRays.IsHexagonTouch(currentPieces, Vector3.down, Tags.UntouchedPiece);
+            return _piecesRays.IsHexagonTouch(currentPieces, _directionOfConnection, Constants.UntouchedPiece);
         }
         
     }

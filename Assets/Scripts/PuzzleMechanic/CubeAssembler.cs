@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using Interfaces;
-using PuzzleMechanic.Enums;
 using PuzzleMechanic.Interfaces;
 using PuzzleMechanic.Systems;
+using PuzzleMechanic.Systems.Pieces;
+using PuzzleMechanic.Systems.PuzzleBuilder;
 using UnityEngine;
 
 namespace PuzzleMechanic
 {
     public class CubeAssembler : MonoBehaviour, IBreakable, IAssemble
     {
-        [SerializeField] private Spots _spots = new();
         [SerializeField] private GameObject[] _currentObject;
         [SerializeField] private GameObject[] _objectPieces;
         [SerializeField] private GameObject[] _basePieces;
@@ -18,7 +18,9 @@ namespace PuzzleMechanic
         [SerializeField] private Material _newBaseMaterial;
         [SerializeField] private Material _mainMaterial;
         [SerializeField] private Pieces _pieces = new();
-
+        [SerializeField] private Spots _spots = new();
+        [SerializeField] private Exploder _exploder = new();
+        
         private ObjectBuilder _objectBuilder;
         private bool _isBroken;
 
@@ -46,9 +48,10 @@ namespace PuzzleMechanic
         {
             if (!_isBroken)
             {
-                _pieces.InitializePieces(_objectPieces, _basePieces, _spots);
                 _isBroken = true;
+                _pieces.InitializePieces(_objectPieces, _basePieces, _spots, _newBaseMaterial);
                 _objectBuilder.BreakObject(_newMaterial,_newBaseMaterial);
+                _exploder.Explode(_objectPieces);
             }
         }
         public void AssembleObject()
@@ -65,7 +68,7 @@ namespace PuzzleMechanic
 
         private void Initialize()
         {
-            gameObject.tag = Tags.DestructibleObject.ToString();
+            gameObject.tag = Constants.DestructibleObject;
             _objectBuilder = new ObjectBuilder(_baseHologramPieces,_currentObject,_objectPieces, _mainMaterial);
         }
         

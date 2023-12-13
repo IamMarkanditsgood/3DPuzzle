@@ -1,6 +1,5 @@
 using InputSystem;
 using Interfaces;
-using PuzzleMechanic.Enums;
 using PuzzleMechanic.Interfaces;
 using PuzzleMechanic.Systems;
 using UnityEngine;
@@ -64,12 +63,12 @@ namespace Level
             if (Physics.Raycast(ray, out hitInfo, _rayDistance))
             {
                 GameObject hitObject = hitInfo.collider.gameObject;
-                if (hitObject.CompareTag(Tags.PiecesOfObject.ToString()))
+                if (hitObject.CompareTag(Constants.PiecesOfObject))
                 {
                     _isDragging = true;
                     _choosedPiece = hitObject;
                 }
-                else if (hitObject.CompareTag(Tags.DestructibleObject.ToString()))
+                else if (hitObject.CompareTag(Constants.DestructibleObject))
                 {
                     _choosedPazzle = hitObject;
                     IBreakable destructibleObject = hitObject.GetComponent<IBreakable>();
