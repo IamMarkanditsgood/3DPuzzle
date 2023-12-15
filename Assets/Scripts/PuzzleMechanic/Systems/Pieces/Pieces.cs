@@ -18,14 +18,16 @@ namespace PuzzleMechanic.Systems.Pieces
         private Material _nextPieceMaterial;
         private GameObject[] _objectPieces;
         private GameObject[] _basePieces;
+        private GameObject[] _hologramPieces;
         private Spots _spots;
 
         public event Action OnSpotPutted;
         
         public bool[] InRightSlot => _inRightSlot;
         
-        public void InitializePieces(GameObject[] objectPieces, GameObject[] basePieces, Spots spots, Material nextPieceMaterial)
+        public void InitializePieces(GameObject[] objectPieces, GameObject[] basePieces,GameObject[] hologramPieces ,Spots spots, Material nextPieceMaterial)
         {
+            _hologramPieces = hologramPieces;
             _nextPieceMaterial = nextPieceMaterial;
             _basePieces = basePieces;
             _objectPieces = objectPieces;
@@ -40,7 +42,7 @@ namespace PuzzleMechanic.Systems.Pieces
                 _objectPieces[i].tag = Constants.PiecesOfObject;
                 _piecesSlotsPosition[i] = _objectPieces[i].transform.position;
                 _piecesSlotsRotation[i] = _objectPieces[i].transform.rotation;
-                _spots.PutSpot(i, _piecesSlotsPosition);
+                //_spots.PutSpot(i, _piecesSlotsPosition);
             }
         }
         
@@ -59,7 +61,8 @@ namespace PuzzleMechanic.Systems.Pieces
             
             if (IsOnOther(piece) && Vector3.Distance(piece.transform.position, _piecesSlotsPosition[arrayIndex]) <= _allowedError)
             {
-                
+                int hologramPieceIndex = PiecesArray.GetArrayIndex(piece, _objectPieces);
+                _hologramPieces[hologramPieceIndex].SetActive(false);
                 PutPieceOnSpot(piece, arrayIndex);
                 OnSpotPutted?.Invoke();
             }

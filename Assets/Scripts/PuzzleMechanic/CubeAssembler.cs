@@ -53,7 +53,7 @@ namespace PuzzleMechanic
             if (!_isBroken)
             {
                 _isBroken = true;
-                _pieces.InitializePieces(_objectPieces, _basePieces, _spots, _newBaseMaterial);
+                _pieces.InitializePieces(_objectPieces, _basePieces,_currentObject, _spots, _newBaseMaterial);
                 _objectBuilder.BreakObject(_newMaterial,_newBaseMaterial);
                 if (_isExploded)
                 {
@@ -77,6 +77,12 @@ namespace PuzzleMechanic
         {
             gameObject.tag = Constants.DestructibleObject;
             _objectBuilder = new ObjectBuilder(_baseHologramPieces,_currentObject,_objectPieces, _mainMaterial);
+            foreach (var objectPiece in _currentObject)
+            {
+                objectPiece.SetActive(true);
+                objectPiece.GetComponent<Renderer>().material = _mainMaterial;
+                objectPiece.GetComponent<Collider>().enabled = true;
+            }
         }
         
         private void ReInitializeObject()

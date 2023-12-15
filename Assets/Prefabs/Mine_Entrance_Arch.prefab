@@ -128,7 +128,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rayLength: 0.35
+  _rayLengthAfter: 0.1
   _angleOffset: 40
+  _direction: {x: 0, y: 0, z: 0}
 --- !u!1 &1906620889448093391
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +356,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rayLength: 0.35
+  _rayLengthAfter: 0.1
   _angleOffset: 40
+  _direction: {x: 0, y: 0, z: 0}
 --- !u!1 &4032960651592433756
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +487,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rayLength: 0.35
+  _rayLengthAfter: 0.1
   _angleOffset: 40
+  _direction: {x: 0, y: 0, z: 0}
 --- !u!1 &4216264066102357319
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +503,7 @@ GameObject:
   - component: {fileID: 8082358432290505233}
   - component: {fileID: 7694112861740731603}
   m_Layer: 0
-  m_Name: Mine_Entrance_Middle_02
+  m_Name: Mine_Entrance_Middle_01
   m_TagString: Hologram
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -516,7 +522,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3107006931327086368}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4132409219684297424
 MeshFilter:
@@ -609,10 +615,10 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8897309873263295667}
   - {fileID: 553981308452341453}
-  - {fileID: 4139889479148245909}
+  - {fileID: 8897309873263295667}
   - {fileID: 7219299973171899065}
+  - {fileID: 4139889479148245909}
   - {fileID: 2841558641511858002}
   m_Father: {fileID: 7875744188043954072}
   m_RootOrder: 2
@@ -745,7 +751,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rayLength: 0.35
+  _rayLengthAfter: 0.1
   _angleOffset: 40
+  _direction: {x: 0, y: 0, z: 0}
 --- !u!1 &7163384676506251289
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +882,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rayLength: 0.35
+  _rayLengthAfter: 0.1
   _angleOffset: 40
+  _direction: {x: 0, y: 0, z: 0}
 --- !u!1 &7319689134298489286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,13 +1034,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e08270d91c49748c04d9a0db638911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spots:
-    _spotPrefab: {fileID: 1740237473587939512, guid: 2478a8c095aedc04cbba47a9704c7c1b, type: 3}
-    _parent: {fileID: 7694112860092192501}
-    _spotsPool: []
   _currentObject:
-  - {fileID: 7425955018768833328}
   - {fileID: 8625920768535661641}
+  - {fileID: 7425955018768833328}
   - {fileID: 8446599145060395929}
   - {fileID: 4216264066102357319}
   - {fileID: 1906620889448093391}
@@ -1058,7 +1064,17 @@ MonoBehaviour:
       _rayLenghtAfter: 0.1
       _angleOffset: 40
       _rayLength: 0.35
-    _nextPieceMaterial: {fileID: 2100000, guid: df8411f5cf0a4074b91bc039e8d01654, type: 2}
+    _directionOfConnection: {x: 0, y: 0, z: 0}
+    _directionOfPainting: {x: 0, y: 0, z: 0}
+  _spots:
+    _spotPrefab: {fileID: 1740237473587939512, guid: 2478a8c095aedc04cbba47a9704c7c1b, type: 3}
+    _parent: {fileID: 7694112860092192501}
+    _spotsPool: []
+  _exploder:
+    _explosionForce: 0
+    _explosionRadius: 0
+    _explosionPosition: {fileID: 0}
+  _isExploded: 1
 --- !u!1 &7425955018768833328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1088,7 @@ GameObject:
   - component: {fileID: 3440047428296473515}
   - component: {fileID: 7694112860413532885}
   m_Layer: 0
-  m_Name: Mine_Entrance_Bottom_01
+  m_Name: Mine_Entrance_Bottom_02
   m_TagString: Hologram
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1091,7 +1107,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3107006931327086368}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6976936656536399422
 MeshFilter:
@@ -1200,7 +1216,7 @@ GameObject:
   - component: {fileID: 30055174675571333}
   - component: {fileID: 7694112861359822239}
   m_Layer: 0
-  m_Name: Mine_Entrance_Middle_01
+  m_Name: Mine_Entrance_Middle_02
   m_TagString: Hologram
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1219,7 +1235,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3107006931327086368}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4662950375592064550
 MeshFilter:
@@ -1297,7 +1313,7 @@ GameObject:
   - component: {fileID: 1246662074402476196}
   - component: {fileID: 7694112861179559394}
   m_Layer: 0
-  m_Name: Mine_Entrance_Bottom_02
+  m_Name: Mine_Entrance_Bottom_01
   m_TagString: Hologram
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,7 +1332,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3107006931327086368}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2589716546751417386
 MeshFilter:
